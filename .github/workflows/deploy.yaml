@@ -1,0 +1,25 @@
+name: Deploy Golang AWS Resources
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION : "us-east-1"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsRoleAlt
+          role-session-name: githubactions
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Veridy AWS Credentials
+        run: aws sts get-caller-identity
