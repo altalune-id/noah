@@ -16,5 +16,4 @@ deploy-local: zip
 	cdklocal deploy "Local/*" --require-approval never --force
 
 deploy: zip
-	cdk bootstrap
-	cdk deploy "${STAGE}/*" --require-approval never --force
+	cdk deploy "${STAGE}/*" --require-approval never
