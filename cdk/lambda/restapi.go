@@ -23,7 +23,7 @@ func NewRestapiLambda(stack awscdk.Stack, cfg *config.Config) awslambda.Function
 	})
 
 	if cfg.NoahApiID == "" {
-		apiRef := awsapigatewayv2.HttpApi_FromHttpApiAttributes(stack, jsii.String("RestapiLambda"), &awsapigatewayv2.HttpApiAttributes{
+		apiRef := awsapigatewayv2.HttpApi_FromHttpApiAttributes(stack, jsii.String("NoahApiRef"), &awsapigatewayv2.HttpApiAttributes{
 			HttpApiId: jsii.String(cfg.NoahApiID),
 		})
 
