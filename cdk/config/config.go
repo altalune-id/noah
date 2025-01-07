@@ -12,10 +12,10 @@ var (
 	AwsRegion    = os.Getenv("AWS_REGION")
 )
 
-func stageName(stage string) string {
+func StageName(stage string) string {
 	return strings.ToLower(stage)
 }
 
 func ExportedLambdaARN(function string, stage string) string {
-	return AppName + "-" + function + "-" + stageName(stage) + "-arn"
+	return AppName + "-" + function + "-" + StageName(stage) + "-arn"
 }
