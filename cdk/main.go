@@ -12,24 +12,47 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	NewStage(app, "Local", &StageProps{
+	NewStage(app, &StageProps{
 		StageProps: awscdk.StageProps{Env: env()},
+		Config: &config.Config{
+			StageName: "Local",
+		},
 	})
 
-	NewStage(app, "Dev-ID", &StageProps{
+	NewStage(app, &StageProps{
 		StageProps: awscdk.StageProps{Env: env()},
+		Config: &config.Config{
+			StageName: "Dev-ID",
+			NoahApiID: "7obw98oth9",
+		},
 	})
 
-	NewStage(app, "Dev-SG", &StageProps{
+	NewStage(app, &StageProps{
 		StageProps: awscdk.StageProps{Env: env()},
+		Config: &config.Config{
+			StageName: "Dev-SG",
+		},
 	})
 
-	NewStage(app, "Prod-ID", &StageProps{
+	NewStage(app, &StageProps{
 		StageProps: awscdk.StageProps{Env: env()},
+		Config: &config.Config{
+			StageName: "Prod-ID",
+		},
 	})
 
-	NewStage(app, "Prod-SG", &StageProps{
+	NewStage(app, &StageProps{
 		StageProps: awscdk.StageProps{Env: env()},
+		Config: &config.Config{
+			StageName: "Prod-SG",
+		},
+	})
+
+	NewStage(app, &StageProps{
+		StageProps: awscdk.StageProps{Env: env()},
+		Config: &config.Config{
+			StageName: "Local",
+		},
 	})
 
 	app.Synth(nil)

@@ -12,6 +12,11 @@ var (
 	AwsRegion    = os.Getenv("AWS_REGION")
 )
 
-func StageName(stage string) string {
-	return strings.ToLower(stage)
+type Config struct {
+	StageName string
+	NoahApiID string
+}
+
+func (c *Config) StageLowerCase() string {
+	return strings.ToLower(c.StageName)
 }

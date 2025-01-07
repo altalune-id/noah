@@ -8,16 +8,11 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-type AppProps struct {
-	awscdk.StackProps
-	Stage string
-}
-
-func NewApp(scope constructs.Construct, props *AppProps) awscdk.Stack {
+func NewApp(scope constructs.Construct, props *awscdk.StackProps, cfg *config.Config) awscdk.Stack {
 	stackID := jsii.String(config.AppName)
-	stack := awscdk.NewStack(scope, stackID, &props.StackProps)
+	stack := awscdk.NewStack(scope, stackID, props)
 
-	_ = lambda.NewRestapiLambda(stack, props.Stage)
+	_ = lambda.NewRestapiLambda(stack, cfg)
 
 	return stack
 }
