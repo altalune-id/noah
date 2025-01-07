@@ -16,7 +16,5 @@ deploy-local: zip
 	cdklocal deploy "Local/*" --require-approval never --force
 
 deploy: zip
-	echo "stage: ${STAGE}"
-	echo "account id: ${AWS_ACCOUNT_ID}"
-	echo "region: ${AWS_REGION}"
-	echo "role: ${AWS_ROLE_OIDC}"
+	cdk bootstrap
+	cdk deploy "${STAGE}/*" --require-approval never --force
