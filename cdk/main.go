@@ -48,13 +48,6 @@ func main() {
 		},
 	})
 
-	NewStage(app, &StageProps{
-		StageProps: awscdk.StageProps{Env: env()},
-		Config: &config.Config{
-			StageName: "Local",
-		},
-	})
-
 	app.Synth(nil)
 }
 
