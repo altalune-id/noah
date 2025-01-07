@@ -22,7 +22,7 @@ func NewRestapiLambda(stack awscdk.Stack, cfg *config.Config) awslambda.Function
 		Code:         awslambda.Code_FromAsset(jsii.String("./bin/restapi.zip"), &awss3assets.AssetOptions{}),
 	})
 
-	if cfg.NoahApiID == "" {
+	if cfg.NoahApiID != "" {
 		apiRef := awsapigatewayv2.HttpApi_FromHttpApiAttributes(stack, jsii.String("NoahApiRef"), &awsapigatewayv2.HttpApiAttributes{
 			HttpApiId: jsii.String(cfg.NoahApiID),
 		})
