@@ -15,7 +15,3 @@ var (
 func StageName(stage string) string {
 	return strings.ToLower(stage)
 }
-
-func ExportedLambdaARN(function string, stage string) string {
-	return AppName + "-" + function + "-" + StageName(stage) + "-arn"
-}

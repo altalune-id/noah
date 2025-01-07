@@ -17,7 +17,7 @@ func NewApp(scope constructs.Construct, props *AppProps) awscdk.Stack {
 	stackID := jsii.String(config.AppName)
 	stack := awscdk.NewStack(scope, stackID, &props.StackProps)
 
-	lambda.NewRestapiLambda(stack, props.Stage)
+	_ = lambda.NewRestapiLambda(stack, props.Stage)
 
 	return stack
 }

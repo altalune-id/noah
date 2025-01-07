@@ -9,10 +9,10 @@ import (
 )
 
 func NewRestapiLambda(stack awscdk.Stack, stage string) awslambda.Function {
-	functionID := jsii.String("restapi")
-	functionArn := jsii.String("restapi-arn")
+	functionName := config.AppName + "-restapi-" + config.StageName(stage)
 
-	function := awslambda.NewFunction(stack, functionID, &awslambda.FunctionProps{
+	function := awslambda.NewFunction(stack, jsii.String("RestapiLambda"), &awslambda.FunctionProps{
+		FunctionName: jsii.String(functionName),
 		Runtime:      awslambda.Runtime_PROVIDED_AL2(),
 		Architecture: awslambda.Architecture_ARM_64(),
 		MemorySize:   jsii.Number(128),
@@ -20,9 +20,9 @@ func NewRestapiLambda(stack awscdk.Stack, stage string) awslambda.Function {
 		Code:         awslambda.Code_FromAsset(jsii.String("./bin/restapi.zip"), &awss3assets.AssetOptions{}),
 	})
 
-	awscdk.NewCfnOutput(stack, functionArn, &awscdk.CfnOutputProps{
+	awscdk.NewCfnOutput(stack, jsii.String("RestapiLambdaOutputArn"), &awscdk.CfnOutputProps{
 		Value:      function.FunctionArn(),
-		ExportName: jsii.String(config.ExportedLambdaARN("restapi", stage)),
+		ExportName: jsii.String(functionName + "-arn"),
 	})
 
 	return function
