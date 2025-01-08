@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set deployment parameters based on stage
+        id: stages
         run: |
           if [ "${{ github.event.inputs.stage }}" == "Dev-ID" ]; then
             echo "Setting parameters for Dev-ID stage"
@@ -62,7 +63,7 @@ jobs:
       - name: Download config from AWS Parameter Store
         run: |
           echo "Downloading configuration from AWS Parameter Store..."
-          aws ssm get-parameter --name "${{ steps.tags.outputs.configname }}" --with-decryption --query "Parameter.Value" --output text > config.yaml
+          aws ssm get-parameter --name "${{ steps.stages.outputs.configname }}" --with-decryption --query "Parameter.Value" --output text > config.yaml
   
       - name: Set up Node.js
         uses: actions/setup-node@v4
