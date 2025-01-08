@@ -23,7 +23,6 @@ func main() {
 		StageProps: awscdk.StageProps{Env: env()},
 		Config: &config.Config{
 			StageName: "Dev-ID",
-			NoahApiID: "7obw98oth9",
 		},
 	})
 

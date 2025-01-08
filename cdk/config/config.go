@@ -14,7 +14,6 @@ var (
 
 type Config struct {
 	StageName string
-	NoahApiID string
 }
 
 func (c *Config) StageLowerCase() string {
