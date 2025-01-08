@@ -32,13 +32,6 @@ var orders = []Order{
 	},
 }
 
-func init() {
-	if ginLambda == nil {
-		router := route()
-		ginLambda = adapter.NewV2(router)
-	}
-}
-
 func lambdaProxy(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	return ginLambda.ProxyWithContext(ctx, request)
 }
@@ -50,10 +43,14 @@ func main() {
 	}
 
 	if cfg.Server.Mode == "local" {
-		router := route()
+		router := route(cfg)
 		router.Run(fmt.Sprintf(":%d", cfg.Server.Port))
 		return
 	}
 
+	if ginLambda == nil {
+		router := route(cfg)
+		ginLambda = adapter.NewV2(router)
+	}
 	lambda.Start(lambdaProxy)
 }

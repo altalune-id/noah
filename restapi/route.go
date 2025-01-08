@@ -1,18 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/altalune-id/noah/config"
 	"github.com/gin-gonic/gin"
 )
 
-func route() *gin.Engine {
+func route(cfg *config.Config) *gin.Engine {
 	router := gin.Default()
 	router.RedirectFixedPath = false
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello darkness my old friend :)",
+			"message": fmt.Sprintf("Hello darkness my old friend from %s :)", cfg.Server.Mode),
 		})
 	})
 
