@@ -18,3 +18,6 @@ bin
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# configuration files
+config.yaml

@@ -31,21 +31,25 @@ jobs:
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
             echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
             echo "AWS_ROLE_OIDC=${{ secrets.AWS_ROLE_OIDC }}" >> $GITHUB_ENV
+            echo "configname=/dev-id/noah/config" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.inputs.stage }}" == "Dev-SG" ]; then
             echo "Setting parameters for Dev-SG stage"
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
             echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
             echo "AWS_ROLE_OIDC=${{ secrets.AWS_ROLE_OIDC }}" >> $GITHUB_ENV
+            echo "configname=/dev-sg/noah/config" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.inputs.stage }}" == "Prod-ID" ]; then
             echo "Setting parameters for Prod-ID stage"
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
             echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
             echo "AWS_ROLE_OIDC=${{ secrets.AWS_ROLE_OIDC }}" >> $GITHUB_ENV
+            echo "configname=/prod-id/noah/config" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.inputs.stage }}" == "Prod-SG" ]; then
             echo "Setting parameters for Prod-SG stage"
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
             echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
             echo "AWS_ROLE_OIDC=${{ secrets.AWS_ROLE_OIDC }}" >> $GITHUB_ENV
+            echo "configname=/prod-sg/noah/config" >> $GITHUB_OUTPUT
           fi
 
       - name: Configure AWS Credentials
@@ -55,6 +59,11 @@ jobs:
           role-session-name: githubactions
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Download config from AWS Parameter Store
+        run: |
+          echo "Downloading configuration from AWS Parameter Store..."
+          aws ssm get-parameter --name "${{ steps.tags.outputs.configname }}" --with-decryption --query "Parameter.Value" --output text > config.yaml
+  
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:

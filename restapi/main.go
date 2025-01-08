@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	"net/http"
+	"fmt"
+	"log"
 
+	"github.com/altalune-id/noah/config"
 	adapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
-	"github.com/gin-gonic/gin"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -32,45 +33,27 @@ var orders = []Order{
 }
 
 func init() {
-	router := gin.Default()
-	router.RedirectFixedPath = false
-
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello darkness my old friend :)",
-		})
-	})
-
-	api := router.Group("/api/v1")
-	{
-		order := api.Group("/orders")
-		order.GET("", func(c *gin.Context) {
-			c.JSON(http.StatusOK, orders)
-		})
-		order.POST("", func(c *gin.Context) {
-			var order Order
-			if err := c.BindJSON(&order); err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				return
-			}
-			orders = append(orders, order)
-			c.JSON(http.StatusOK, order)
-		})
+	if ginLambda == nil {
+		router := route()
+		ginLambda = adapter.NewV2(router)
 	}
-
-	router.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, gin.H{
-			"message": "Resource not found",
-		})
-	})
-
-	ginLambda = adapter.NewV2(router)
 }
 
-func handler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+func lambdaProxy(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	return ginLambda.ProxyWithContext(ctx, request)
 }
 
 func main() {
-	lambda.Start(handler)
+	cfg, err := config.LoadConfig("config.yaml")
+	if err != nil {
+		log.Fatalf("Error loading config: %v", err)
+	}
+
+	if cfg.Server.Mode == "local" {
+		router := route()
+		router.Run(fmt.Sprintf(":%d", cfg.Server.Port))
+		return
+	}
+
+	lambda.Start(lambdaProxy)
 }
