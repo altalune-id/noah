@@ -14,7 +14,7 @@ func route(cfg *config.Config) *gin.Engine {
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": fmt.Sprintf("Hello darkness my old friend from %s :)", cfg.Server.Mode),
+			"message": fmt.Sprintf("Hello darkness my old friend from %s :)", cfg.Server.Stage),
 		})
 	})
 

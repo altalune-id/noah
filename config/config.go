@@ -11,6 +11,7 @@ type Config struct {
 	Server struct {
 		Port  int    `yaml:"port"`
 		Mode  string `yaml:"mode"`
+		Stage string `yaml:"stage"`
 		Debug bool   `yaml:"debug"`
 	} `yaml:"server"`
 
