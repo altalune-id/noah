@@ -21,3 +21,4 @@ cdk.out
 
 # configuration files
 config.yaml
+.envrc
