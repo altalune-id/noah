@@ -1,8 +1,14 @@
 server:
   port: 8080
-  mode: local
+  env: local
   stage: local
   debug: true
+
+websocket:
+  endpoint: https://xxx.execute-api.us-east-1.amazonaws.com/local
+
+aws:
+  region: us-east-1
 
 database:
   driver: postgres
