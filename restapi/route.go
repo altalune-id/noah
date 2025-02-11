@@ -12,13 +12,15 @@ func route(cfg *config.Config) *gin.Engine {
 	router := gin.Default()
 	router.RedirectFixedPath = false
 
-	router.GET("/", func(c *gin.Context) {
+	base := router.Group(fmt.Sprintf("/%s", cfg.Server.Stage))
+
+	base.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": fmt.Sprintf("Hello darkness my old friend from %s :)", cfg.Server.Stage),
 		})
 	})
 
-	api := router.Group("/api/v1")
+	api := base.Group("/api/v1")
 	{
 		order := api.Group("/orders")
 		order.GET("", func(c *gin.Context) {
