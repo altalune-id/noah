@@ -13,6 +13,7 @@ func NewApp(scope constructs.Construct, props *awscdk.StackProps, cfg *config.Co
 	stack := awscdk.NewStack(scope, stackID, props)
 
 	_ = lambda.NewRestapiLambda(stack, cfg)
+	_ = lambda.NewWebsocketLambda(stack, cfg)
 
 	return stack
 }
