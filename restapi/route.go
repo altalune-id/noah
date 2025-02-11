@@ -10,7 +10,7 @@ import (
 
 func route(cfg *config.Config) *gin.Engine {
 	router := gin.Default()
-	router.RedirectFixedPath = false
+	router.RedirectFixedPath = true
 
 	base := router.Group(fmt.Sprintf("/%s", cfg.Server.Stage))
 
@@ -39,7 +39,7 @@ func route(cfg *config.Config) *gin.Engine {
 
 	router.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
-			"message": "Resource not found",
+			"message": fmt.Sprintf("Resource '%s' not found", c.Request.URL.Path),
 		})
 	})
 
